@@ -12,22 +12,12 @@ import static org.quartz.TriggerBuilder.*;
 import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
-    private static int getInterval() {
-        String interval = "";
-        try (FileReader reader = new FileReader("src/main/resources/rabbit.properties")) {
-            Properties properties = new Properties();
-            properties.load(reader);
-            interval = properties.getProperty("rabbit.interval");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Integer.parseInt(interval);
-    }
+    public static Properties properties;
 
     private static Connection connect() {
         Connection connection = null;
         try (FileReader reader = new FileReader("src/main/resources/rabbit.properties")) {
-            Properties properties = new Properties();
+            properties = new Properties();
             properties.load(reader);
             Class.forName(properties.getProperty("driver-class-name"));
             connection = DriverManager.getConnection(
@@ -75,7 +65,7 @@ public class AlertRabbit {
             data.put("cn", cn);
             JobDetail job = newJob(Rabbit.class).build();
             SimpleScheduleBuilder times = simpleSchedule()
-                    .withIntervalInSeconds(getInterval())
+                    .withIntervalInSeconds(Integer.parseInt(properties.getProperty("rabbit.interval")))
                     .repeatForever();
             Trigger trigger = newTrigger()
                     .startNow()
