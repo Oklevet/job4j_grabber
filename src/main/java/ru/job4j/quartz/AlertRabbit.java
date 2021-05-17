@@ -24,8 +24,6 @@ public class AlertRabbit {
                 properties.getProperty("url"),
                 properties.getProperty("username"),
                 properties.getProperty("password"));
-//            System.out.println(properties.toString());                                      //debug zone
-//            System.out.println(connection.toString());                                      //debug zone
         } catch (ClassNotFoundException cnfe) {
             cnfe.printStackTrace();
         } catch (Exception e) {
@@ -36,7 +34,7 @@ public class AlertRabbit {
 
     private static void insert(Connection cnt, long value) {
         try (PreparedStatement pr = cnt.prepareStatement(
-                "insert into rabbit(created_date) values (?)")) {
+                "insert into rabbit_s.rabbit(created_date) values (?)")) {
             pr.setLong(1, value);
             pr.execute();
         } catch (Exception e) {
@@ -46,10 +44,10 @@ public class AlertRabbit {
 
     private static void selectAll(Connection cnt) {
         try (PreparedStatement pr = cnt.prepareStatement(
-                "select * from rabbit")) {
+                "select * from rabbit_s.rabbit")) {
             try (ResultSet resultSet = pr.executeQuery()) {
                 while (resultSet.next()) {
-                    System.out.println(resultSet.getInt("value"));
+                    System.out.println(resultSet.getInt("created_date"));
                 }
             }
         } catch (Exception e) {
@@ -63,7 +61,9 @@ public class AlertRabbit {
             scheduler.start();
             JobDataMap data = new JobDataMap();
             data.put("cn", cn);
-            JobDetail job = newJob(Rabbit.class).build();
+            JobDetail job = newJob(Rabbit.class)
+                    .usingJobData(data)
+                    .build();
             SimpleScheduleBuilder times = simpleSchedule()
                     .withIntervalInSeconds(Integer.parseInt(properties.getProperty("rabbit.interval")))
                     .repeatForever();
