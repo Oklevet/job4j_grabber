@@ -47,7 +47,7 @@ public class AlertRabbit {
                 "select * from rabbit_s.rabbit")) {
             try (ResultSet resultSet = pr.executeQuery()) {
                 while (resultSet.next()) {
-                    System.out.println(resultSet.getInt("created_date"));
+                    System.out.println(resultSet.getLong("created_date"));
                 }
             }
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class AlertRabbit {
                     .build();
             scheduler.scheduleJob(job, trigger);
             Thread.sleep(10000);
-            scheduler.shutdown();
+            scheduler.shutdown(true);
             System.out.println(cn);
         } catch (SchedulerException se) {
             se.printStackTrace();
