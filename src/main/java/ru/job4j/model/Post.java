@@ -1,47 +1,84 @@
 package ru.job4j.model;
 
-public class Post {
-    private String date;
-    private String head;
-    private String url;
-    private String plot;
+import java.sql.Date;
+import java.time.LocalDateTime;
 
-    public Post(String date, String head, String url, String plot) {
-        this.date = date;
-        this.head = head;
-        this.url = url;
-        this.plot = plot;
+public class Post {
+    private int id;
+    private String name;
+    private String text;
+    private String link;
+    private String created;
+
+    public Post(String name, String text, String link) {
+        this.name = name;
+        this.text = text;
+        this.link = link;
     }
 
-    public Post(String date, String url, String plot) {
-        this.date = date;
-        this.url = url;
-        this.plot = plot;
+    public Post(String name, String text, String link, String created) {
+        this.name = name;
+        this.text = text;
+        this.link = link;
+        this.created = created;
+    }
+
+    public Post(int id, String name, String text, String link, String created) {
+        this.id = id;
+        this.name = name;
+        this.text = text;
+        this.link = link;
+        this.created = created;
     }
 
     @Override
     public String toString() {
         return "Post{" +
-                "date='" + date + System.lineSeparator() +
-                ", head='" + head + System.lineSeparator() +
-                ", url='" + url + System.lineSeparator() +
-                ", plot='" + plot + System.lineSeparator() +
+                "id=" + id + System.lineSeparator() +
+                ", name='" + name + System.lineSeparator() +
+                ", text='" + text + System.lineSeparator() +
+                ", link='" + link + System.lineSeparator() +
+                ", created=" + created +
                 '}';
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setHead(String head) {
-        this.head = head;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public void setPlot(String plot) {
-        this.plot = plot;
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public String getCreated() {
+        return created;
     }
 }
