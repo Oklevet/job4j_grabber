@@ -1,49 +1,47 @@
 package ru.job4j.model;
 
-import java.util.List;
-
 public class Post {
-    private Profile topicStarter;
-    private List<Profile> commentators;
-    private String headAd;
-    private String textAd;
-    private String textComment;
-    private Button[] buttons;
-    private Head header;
+    private String date;
+    private String head;
+    private String url;
+    private String plot;
 
-    public Post(Profile topicStarter, String headAd, String textAd, Button[] buttons, Head header) {
-        this.topicStarter = topicStarter;
-        this.headAd = headAd;
-        this.textAd = textAd;
-        this.buttons = buttons;
-        this.header = header;
+    public Post(String date, String head, String url, String plot) {
+        this.date = date;
+        this.head = head;
+        this.url = url;
+        this.plot = plot;
     }
 
-    public void setCommentators(Profile commentator) {
-        this.commentators = commentators.add(commentator);
+    public Post(String date, String url, String plot) {
+        this.date = date;
+        this.url = url;
+        this.plot = plot;
     }
 
-    public void setTextAd(String textAd) {
-        this.textAd = textAd;
+    @Override
+    public String toString() {
+        return "Post{" +
+                "date='" + date + System.lineSeparator() +
+                ", head='" + head + System.lineSeparator() +
+                ", url='" + url + System.lineSeparator() +
+                ", plot='" + plot + System.lineSeparator() +
+                '}';
     }
 
-    public void setTextComment(String textComment) {
-        this.textComment = textComment;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public Profile getCommentato() {
-        return commentator;
+    public void setHead(String head) {
+        this.head = head;
     }
 
-    public String getTextAd() {
-        return textAd;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getTextComment() {
-        return textComment;
-    }
-
-    public Button pushButton(index i) {
-        return button[i];
+    public void setPlot(String plot) {
+        this.plot = plot;
     }
 }
