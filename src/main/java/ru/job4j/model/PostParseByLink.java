@@ -15,22 +15,13 @@ public class PostParseByLink {
         Elements msg = doc.getElementsByClass("msgBody");
         Elements dateMsg = doc.getElementsByClass("msgFooter");
 
-        int count = 0;
-        for (Element td : msg) {
-            if (count == 1) {
-                System.out.println(td.text());
-                break;
-            }
-            count++;
-        }
+        Element tr  = msg.get(1);
+        System.out.println(tr.text());
 
-        for (Element td : dateMsg) {
-            String[] footerMsg = td.text().split(" \\[");
-            System.out.println(footerMsg[0]);
-            break;
-        }
+        Element td = dateMsg.get(0);
+        String[] footerMsg = td.text().split(" \\[");
+        System.out.println(footerMsg[0]);
     }
-
     public static void main(String[] args) throws IOException {
         parseRec();
     }
