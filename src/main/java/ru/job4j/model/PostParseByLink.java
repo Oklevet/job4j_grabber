@@ -7,7 +7,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 
-public class PostDetail {
+public class PostParseByLink {
     public static void parseRec() throws IOException {
         String link =
                 "https://www.sql.ru/forum/1336096/clickhouse-specialist-altinity-com-udalenka-ot-3-000-do-5-000-usd";
