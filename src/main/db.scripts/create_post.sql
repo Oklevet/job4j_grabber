@@ -4,5 +4,7 @@ create table post.post (
     "name" varchar,
     "text" varchar,
     link varchar unique,
-    created date  
+    created varchar
 )
+
+select * from post.post;
