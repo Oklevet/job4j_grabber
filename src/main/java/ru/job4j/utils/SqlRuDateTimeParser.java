@@ -50,7 +50,7 @@ public class SqlRuDateTimeParser implements DateTimeParser {
                     return LocalDateTime.of(dayNow.getYear(), dayNow.getMonth(), dayNow.getDayOfMonth() - 1,
                             getHours(str), getMins(str));
                 default:
-                    throw new Exception("wrong format of d  ate");
+                    throw new Exception("wrong format of date");
             }
         }
     }

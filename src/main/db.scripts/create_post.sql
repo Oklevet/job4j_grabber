@@ -8,3 +8,4 @@ create table post.post (
 )
 select * from post.post;
 delete from post.post;
+--drop table post.post;

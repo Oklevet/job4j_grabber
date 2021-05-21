@@ -6,15 +6,16 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.job4j.grabber.Parse;
 import ru.job4j.model.Post;
+import ru.job4j.utils.SqlRuDateTimeParser;
 
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class SqlRuParse implements Parse {
     private String linkPost;
 
     @Override
-    public List<Post> list(String link) throws IOException {
+    public List<Post> list(String link) throws Exception {
         List<Post> posts = new ArrayList<>();
         Document doc;
         doc = Jsoup.connect(String.valueOf(link)).get();
@@ -29,18 +30,21 @@ public class SqlRuParse implements Parse {
     }
 
     @Override
-    public Post detail(String link) throws IOException {
+    public Post detail(String link) throws Exception {
         Document doc = Jsoup.connect(link).get();
+        Elements msgHead = doc.getElementsByClass("messageHeader");
         Elements msg = doc.getElementsByClass("msgBody");
         Elements dateMsg = doc.getElementsByClass("msgFooter");
 
-        String plot  = msg.get(1).text();
+        String head = msgHead.text();
+        SqlRuDateTimeParser sqlDate = new SqlRuDateTimeParser();
+        String plot  = msg.get(0).text();
         String[] footerMsg = dateMsg.get(0).text().split(" \\[");
-        String datePost = footerMsg[0];
-        return new Post(datePost, link,  plot);
+        LocalDateTime datePost = sqlDate.parse(footerMsg[0]);
+        return new Post(head, link,  plot, datePost);
     }
 
-    public Map<Integer, List<Post>> parsePages(String link, int numPage) throws IOException {
+    public Map<Integer, List<Post>> parsePages(String link, int numPage) throws Exception {
         Map<Integer, List<Post>> book = new HashMap<>();
         String etalonLink = link;
         for (int i = 1; i <= numPage; i++) {
@@ -50,11 +54,11 @@ public class SqlRuParse implements Parse {
         return book;
    }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Map<Integer, List<Post>> book = new HashMap<>();
         SqlRuParse srp      = new SqlRuParse();
         String link         = "https://www.sql.ru/forum/job-offers";
-        int numPages        = 5;
+        int numPages        = 1;
         book = srp.parsePages(link, numPages);           //тестовые первые пять страниц форума
         System.out.println(book.size());
     }
