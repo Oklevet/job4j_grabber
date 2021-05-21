@@ -23,6 +23,14 @@ public class Post {
         this.created = created;
     }
 
+    public Post(int id, String name, String text, String link, LocalDateTime created) {
+        this.id = id;
+        this.name = name;
+        this.text = text;
+        this.link = link;
+        this.created = created;
+    }
+
     @Override
     public String toString() {
         return "Post{" +

@@ -49,9 +49,7 @@ public class PsqlStore implements Store, AutoCloseable {
             preparedStatement.setString(2, post.getText());
             preparedStatement.setString(3, post.getLink());
             preparedStatement.setTimestamp(4, Timestamp.valueOf(post.getCreated()));
-            if (preparedStatement.execute()) {
-                System.out.println("insert not done " + post.getLink());
-            }
+            preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,6 +63,7 @@ public class PsqlStore implements Store, AutoCloseable {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     posts.add(new Post(
+                            resultSet.getInt("id"),
                             resultSet.getString("name"),
                             resultSet.getString("text"),
                             resultSet.getString("link"),
@@ -87,6 +86,7 @@ public class PsqlStore implements Store, AutoCloseable {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     post = new Post(
+                            resultSet.getInt("id"),
                             resultSet.getString("name"),
                             resultSet.getString("text"),
                             resultSet.getString("link"),
