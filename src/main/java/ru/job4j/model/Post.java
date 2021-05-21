@@ -1,5 +1,6 @@
 package ru.job4j.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Post {
@@ -7,7 +8,7 @@ public class Post {
     private String name;
     private String text;
     private String link;
-    private Date created;
+    private LocalDateTime created;
 
     public Post(String name, String text, String link) {
         this.name = name;
@@ -15,7 +16,7 @@ public class Post {
         this.link = link;
     }
 
-    public Post(String name, String text, String link, Date created) {
+    public Post(String name, String text, String link, LocalDateTime created) {
         this.name = name;
         this.text = text;
         this.link = link;
@@ -49,7 +50,7 @@ public class Post {
         this.link = link;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
@@ -69,7 +70,7 @@ public class Post {
         return link;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 }
