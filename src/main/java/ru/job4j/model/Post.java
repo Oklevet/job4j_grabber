@@ -1,7 +1,5 @@
 package ru.job4j.model;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Post {
@@ -9,7 +7,7 @@ public class Post {
     private String name;
     private String text;
     private String link;
-    private Instant created;
+    private Date created;
 
     public Post(String name, String text, String link) {
         this.name = name;
@@ -17,7 +15,7 @@ public class Post {
         this.link = link;
     }
 
-    public Post(String name, String text, String link, Instant created) {
+    public Post(String name, String text, String link, Date created) {
         this.name = name;
         this.text = text;
         this.link = link;
@@ -51,7 +49,7 @@ public class Post {
         this.link = link;
     }
 
-    public void setCreated(Instant created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
@@ -71,7 +69,7 @@ public class Post {
         return link;
     }
 
-    public Instant getCreated() {
+    public Date getCreated() {
         return created;
     }
 }

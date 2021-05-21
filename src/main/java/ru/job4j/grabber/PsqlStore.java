@@ -5,7 +5,6 @@ import ru.job4j.utils.SqlRuDateTimeParser;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -48,7 +47,7 @@ public class PsqlStore implements Store, AutoCloseable {
             preparedStatement.setString(1, post.getName());
             preparedStatement.setString(2, post.getText());
             preparedStatement.setString(3, post.getLink());
-            preparedStatement.setTimestamp(4, Timestamp.from(post.getCreated()));
+            preparedStatement.setTimestamp(4, Timestamp.from(post.getCreated().toInstant()));
             if (!preparedStatement.execute()) {
                 System.out.println("insert not done" + post.getLink());
             }
@@ -68,7 +67,7 @@ public class PsqlStore implements Store, AutoCloseable {
                             resultSet.getString("name"),
                             resultSet.getString("text"),
                             resultSet.getString("link"),
-                            resultSet.getTimestamp("created").toInstant()
+                            resultSet.getTimestamp("created")
                     ));
                 }
             }
@@ -90,7 +89,7 @@ public class PsqlStore implements Store, AutoCloseable {
                             resultSet.getString("name"),
                             resultSet.getString("text"),
                             resultSet.getString("link"),
-                            resultSet.getTimestamp("created").toInstant()
+                            resultSet.getTimestamp("created")
                     );
                 }
             }
@@ -113,7 +112,7 @@ public class PsqlStore implements Store, AutoCloseable {
                 "Вакансия Full stack JavaScript (NodeJS and ReactJS), полная занятость, 1800-4500$",
                 "Разработчики должны иметь подтвержденный опыт разработки приложений с упором на реализацию пользовательских интерфейсов с ReactJS с использованием Redux;",
                 "https://www.sql.ru/forum/1335833/vakansiya-full-stack-javascript-nodejs-and-reactjs-polnaya-zanyatost-1800-4500",
-                (new SqlRuDateTimeParser().parse("3 май 21, 14:09")).toInstant(ZoneOffset.UTC)
+                Timestamp.valueOf(new SqlRuDateTimeParser().parse("3 май 21, 14:09"))
         );
 
         Post post2 = new Post(
@@ -122,8 +121,9 @@ public class PsqlStore implements Store, AutoCloseable {
                         "- Работа с фреймворком React;\n" +
                         "- Написание UnitTests, IntegrationTests;",
                 "https://www.sql.ru/forum/1335834/vakansiya-senior-middle-node-js-developer-polnaya-zanyatost-1800-4500",
-                (new SqlRuDateTimeParser().parse("3 май 21, 14:10")).toInstant(ZoneOffset.UTC)
+                Timestamp.valueOf(new SqlRuDateTimeParser().parse("3 май 21, 14:10"))
         );
+        System.out.println("start");
 
         psqlS.save(post1);
         System.out.println("--");
