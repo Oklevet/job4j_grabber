@@ -1,8 +1,11 @@
 package ru.job4j.grabber;
 
 import ru.job4j.model.Post;
+import ru.job4j.utils.SqlRuDateTimeParser;
+
 import java.io.InputStream;
 import java.sql.*;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -45,7 +48,7 @@ public class PsqlStore implements Store, AutoCloseable {
             preparedStatement.setString(1, post.getName());
             preparedStatement.setString(2, post.getText());
             preparedStatement.setString(3, post.getLink());
-            preparedStatement.setString(4, post.getCreated());
+            preparedStatement.setTimestamp(4, Timestamp.from(post.getCreated()));
             if (!preparedStatement.execute()) {
                 System.out.println("insert not done" + post.getLink());
             }
@@ -62,11 +65,10 @@ public class PsqlStore implements Store, AutoCloseable {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     posts.add(new Post(
-                            resultSet.getInt("id"),
                             resultSet.getString("name"),
                             resultSet.getString("text"),
                             resultSet.getString("link"),
-                            resultSet.getString("created")
+                            resultSet.getTimestamp("created").toInstant()
                     ));
                 }
             }
@@ -85,11 +87,10 @@ public class PsqlStore implements Store, AutoCloseable {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     post = new Post(
-                            resultSet.getInt("id"),
                             resultSet.getString("name"),
                             resultSet.getString("text"),
                             resultSet.getString("link"),
-                            resultSet.getString("created")
+                            resultSet.getTimestamp("created").toInstant()
                     );
                 }
             }
@@ -112,7 +113,7 @@ public class PsqlStore implements Store, AutoCloseable {
                 "Вакансия Full stack JavaScript (NodeJS and ReactJS), полная занятость, 1800-4500$",
                 "Разработчики должны иметь подтвержденный опыт разработки приложений с упором на реализацию пользовательских интерфейсов с ReactJS с использованием Redux;",
                 "https://www.sql.ru/forum/1335833/vakansiya-full-stack-javascript-nodejs-and-reactjs-polnaya-zanyatost-1800-4500",
-                "3 май 21, 14:09"
+                (new SqlRuDateTimeParser().parse("3 май 21, 14:09")).toInstant(ZoneOffset.UTC)
         );
 
         Post post2 = new Post(
@@ -121,7 +122,7 @@ public class PsqlStore implements Store, AutoCloseable {
                         "- Работа с фреймворком React;\n" +
                         "- Написание UnitTests, IntegrationTests;",
                 "https://www.sql.ru/forum/1335834/vakansiya-senior-middle-node-js-developer-polnaya-zanyatost-1800-4500",
-                "3 май 21, 14:10"
+                (new SqlRuDateTimeParser().parse("3 май 21, 14:10")).toInstant(ZoneOffset.UTC)
         );
 
         psqlS.save(post1);

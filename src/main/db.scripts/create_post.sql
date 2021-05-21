@@ -4,7 +4,7 @@ create table post.post (
     "name" varchar,
     "text" varchar,
     link varchar unique,
-    created varchar
+    created timestamp
 )
-
 select * from post.post;
+delete from post.post;
