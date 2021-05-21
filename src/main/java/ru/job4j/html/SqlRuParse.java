@@ -33,41 +33,16 @@ public class SqlRuParse implements Parse {
         Document doc = Jsoup.connect(link).get();
         Elements msg = doc.getElementsByClass("msgBody");
         Elements dateMsg = doc.getElementsByClass("msgFooter");
-        String plot = "";
-        String datePost = "";
 
-        int count = 0;
-        for (Element td : msg) {
-            if (count == 1) {
-                plot = td.text();
-                break;
-            }
-            count++;
-        }
-
-        for (Element td : dateMsg) {
-            String[] footerMsg = td.text().split(" \\[");
-            datePost = footerMsg[0];
-            break;
-        }
+        String plot  = msg.get(1).text();
+        String[] footerMsg = dateMsg.get(0).text().split(" \\[");
+        String datePost = footerMsg[0];
         return new Post(datePost, link,  plot);
-    }
-
-    public Integer getMaxPage(String link) throws IOException {
-        Document doc;
-        doc = Jsoup.connect(String.valueOf(link)).get();
-        Elements recs = doc.select(".sort_options");    //class[2]
-        Element pages = recs.last();                            //style on from 2
-        Element href = pages.child(0);
-        String[] nums = href.text().split(" Показываются темы");
-        String[] lastNum = nums[0].split("\\.\\. ");
-        return Integer.parseInt(lastNum[1]);
     }
 
     public Map<Integer, List<Post>> parsePages(String link, int numPage) throws IOException {
         Map<Integer, List<Post>> book = new HashMap<>();
         String etalonLink = link;
-        SqlRuParse srp1 = new SqlRuParse();
         for (int i = 1; i <= numPage; i++) {
             link = String.format("%s%s%s", etalonLink, "/", i);
             book.put(i, list(link));
@@ -80,10 +55,7 @@ public class SqlRuParse implements Parse {
         SqlRuParse srp      = new SqlRuParse();
         String link         = "https://www.sql.ru/forum/job-offers";
         int numPages        = 5;
-        int allPages        = srp.getMaxPage(link);
-        //System.out.println(allPages);             //количество страниц на форуме
         book = srp.parsePages(link, numPages);           //тестовые первые пять страниц форума
-        //book = srp.parsePages(link, allPages);    //Полный парсинг
         System.out.println(book.size());
     }
 }
