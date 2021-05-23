@@ -5,13 +5,12 @@ import ru.job4j.utils.SqlRuDateTimeParser;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class PsqlStore implements Store, AutoCloseable {
-    private Properties cfg;
+    private final Properties cfg;
     private Connection cnn;
 
     public PsqlStore() {
@@ -43,7 +42,8 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public void save(Post post) {
         try (PreparedStatement preparedStatement = cnn.prepareStatement(
-                "insert into post.post(name, text, link, created) values (?, ?, ?, ?)",
+                "insert into post.post(name, text, link, created) values (?, ?, ?, ?) " +
+                        "on conflict (link) do nothing",
                 Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, post.getName());
             preparedStatement.setString(2, post.getText());

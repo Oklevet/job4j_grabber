@@ -4,7 +4,8 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import ru.job4j.html.SqlRuParse;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import static org.quartz.JobBuilder.newJob;
@@ -56,10 +57,11 @@ public class Grabber implements Grab {
             Store store = (Store) map.get("store");
             Parse parse = (Parse) map.get("parse");
             try {
-                parse.list("https://www.sql.ru/forum/job-offers")
+                   parse.list("https://www.sql.ru/forum/job-offers")
                         .stream().filter(head -> head.getName()
                             .toLowerCase().contains("java"))
-                        .forEach(post -> store.save(post));
+                        .forEach(store::save);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

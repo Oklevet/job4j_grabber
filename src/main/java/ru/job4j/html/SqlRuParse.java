@@ -38,10 +38,10 @@ public class SqlRuParse implements Parse {
 
         String head = msgHead.text();
         SqlRuDateTimeParser sqlDate = new SqlRuDateTimeParser();
-        String plot  = msg.get(0).text();
+        String plot  = msg.get(1).text();
         String[] footerMsg = dateMsg.get(0).text().split(" \\[");
         LocalDateTime datePost = sqlDate.parse(footerMsg[0]);
-        return new Post(head, link,  plot, datePost);
+        return new Post(head, plot, link, datePost);
     }
 
     public Map<Integer, List<Post>> parsePages(String link, int numPage) throws Exception {
@@ -58,7 +58,7 @@ public class SqlRuParse implements Parse {
         Map<Integer, List<Post>> book = new HashMap<>();
         SqlRuParse srp      = new SqlRuParse();
         String link         = "https://www.sql.ru/forum/job-offers";
-        int numPages        = 1;
+        int numPages        = 5;
         book = srp.parsePages(link, numPages);           //тестовые первые пять страниц форума
         System.out.println(book.size());
     }
