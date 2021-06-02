@@ -1,7 +1,8 @@
-package ru.job4j.grabber;
+package ru.job4j.html;
 
-import ru.job4j.model.Post;
-import ru.job4j.utils.SqlRuDateTimeParser;
+import ru.job4j.grabber.Post;
+import ru.job4j.grabber.SqlRuDateTimeParser;
+import ru.job4j.grabber.Store;
 
 import java.io.InputStream;
 import java.sql.*;
@@ -42,8 +43,8 @@ public class PsqlStore implements Store, AutoCloseable {
     @Override
     public void save(Post post) {
         try (PreparedStatement preparedStatement = cnn.prepareStatement(
-                "insert into post.post(name, text, link, created) values (?, ?, ?, ?) " +
-                        "on conflict (link) do nothing",
+                "insert into post.post(name, text, link, created) values (?, ?, ?, ?) "
+                        + "on conflict (link) do nothing",
                 Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, post.getName());
             preparedStatement.setString(2, post.getText());
@@ -118,9 +119,9 @@ public class PsqlStore implements Store, AutoCloseable {
 
         Post post2 = new Post(
                 "Вакансия Senior / Middle Node JS Developer, полная занятость, 1800-4500$",
-                "- Знание HTML, CSS, JS;\n" +
-                        "- Работа с фреймворком React;\n" +
-                        "- Написание UnitTests, IntegrationTests;",
+                "- Знание HTML, CSS, JS;\n"
+                        + "- Работа с фреймворком React;\n"
+                        + "- Написание UnitTests, IntegrationTests;",
                 "https://www.sql.ru/forum/1335834/vakansiya-senior-middle-node-js-developer-polnaya-zanyatost-1800-4500",
                 new SqlRuDateTimeParser().parse("3 май 21, 14:10")
         );

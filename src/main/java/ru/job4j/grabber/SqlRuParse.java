@@ -1,12 +1,9 @@
-package ru.job4j.html;
+package ru.job4j.grabber;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.job4j.grabber.Parse;
-import ru.job4j.model.Post;
-import ru.job4j.utils.SqlRuDateTimeParser;
 
 import java.time.LocalDateTime;
 import java.util.*;

@@ -15,10 +15,10 @@ public class SqlRuParseFew {
         try {
             doc = Jsoup.connect(String.valueOf(link)).get();
             List<String> altCol = new ArrayList<>();
-            Elements Recs = doc.select(conditionRecs);
-            Elements Dates = doc.select(conditionDates);
+            Elements recs = doc.select(conditionRecs);
+            Elements dates = doc.select(conditionDates);
             int count = 0;
-            for (Element td : Dates) {
+            for (Element td : dates) {
                 if (count % 2 != 0) {
                     altCol.add(td.text());
                 }
@@ -26,7 +26,7 @@ public class SqlRuParseFew {
             }
             count = 0;
 
-            for (Element tr : Recs) {
+            for (Element tr : recs) {
                 Element href = tr.child(0);
                 String date = altCol.get(count++);
 //                SqlRuDateTimeParser srd = new SqlRuDateTimeParser();

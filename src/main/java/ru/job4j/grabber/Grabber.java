@@ -2,8 +2,7 @@ package ru.job4j.grabber;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import ru.job4j.html.SqlRuParse;
-import ru.job4j.model.Post;
+import ru.job4j.html.PsqlStore;
 
 import java.io.IOException;
 import java.io.InputStream;

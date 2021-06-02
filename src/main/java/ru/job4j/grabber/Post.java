@@ -1,4 +1,4 @@
-package ru.job4j.model;
+package ru.job4j.grabber;
 
 import java.time.LocalDateTime;
 
@@ -26,13 +26,13 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" +
-                "id=" + id + System.lineSeparator() +
-                ", name='" + name + System.lineSeparator() +
-                ", text='" + text + System.lineSeparator() +
-                ", link='" + link + System.lineSeparator() +
-                ", created=" + created +
-                '}';
+        return "Post{"
+                + "id=" + id + System.lineSeparator()
+                + ", name='" + name + System.lineSeparator()
+                + ", text='" + text + System.lineSeparator()
+                + ", link='" + link + System.lineSeparator()
+                + ", created=" + created
+                + '}';
     }
 
     public void setId(int id) {
